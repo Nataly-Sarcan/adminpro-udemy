@@ -20,6 +20,7 @@ import { AccoutSettingsComponent } from './accout-settings/accout-settings.compo
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,6 @@ import { ProfileComponent } from './profile/profile.component';
     ProfileComponent
   ],
   exports: [DashboardComponent, ProgressComponent, Graficas1Component],
-  imports: [SharesModule, PAGES_ROUTES, FormsModule, ChartsModule, BrowserModule, PipesModule]
+  imports: [SharesModule, PAGES_ROUTES, FormsModule, ChartsModule, BrowserModule, PipesModule, CommonModule]
 })
 export class PagesModule {}
