@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-body">
 
-                <input #input (keyup)="buscarHospital(input.value)" type="text" class="form-control" placeholder="Buscar hospital...">
+                <input #input (keyup)="buscarMedico(input.value)" type="text" class="form-control" placeholder="Buscar médico...">
 
             </div>
         </div>
@@ -21,43 +21,48 @@
     </div>
 </div>
 
-<div class="row animated fadeIn" *ngIf="!cargando">
+<div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-body">
+
                 <div class="row">
                     <div class="col-9">
-                        <h3 class="card-title">Hospitales registrados ( <small>{{totalRegistros}}</small>)</h3>
+                        <h3 class="card-title">Médicos registrados ( <small>{{totalRegistros}}</small>)</h3>
                     </div>
                     <div class="col-3">
-                        <button (click)="crearHospital()" class="btn btn-primary waves-effect waves-light btn-rounded" align="right"><i class="fa fa-plus" ></i> Crear hospital</button>
+                        <button [routerLink]="['/medico','nuevo']" class="btn btn-primary waves-effect waves-light btn-rounded" align="right"><i class="fa fa-plus" ></i> Crear médico</button>
                     </div>
                 </div>
+
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>Foto</th>
+                            <th>Médico</th>
                             <th>Hospital</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let hospital of hospitales">
+                        <tr *ngFor="let medico of medicos">
                             <td class="w70">
-                                <img (click)="mostrarModal(hospital._id)" [src]="hospital.img | imagen:'hospitales'" class="img-50 img-circle pointer">
+                                <img (click)="mostrarModal(medico._id)" [src]="medico.img | imagen:'medicos'" class="img-50 img-circle pointer">
                             </td>
-                            <td>{{hospital.nombre}}</td>
+                            <td>{{medico.nombre}}</td>
+                            <td>{{medico.hospital.nombre}}</td>
                             <td>
-                                <button (click)="guardarHospital(hospital)" class="btn btn-primary">
-                          <i class="fa fa-save"></i>
-                        </button>
-                                <button (click)="borrarHospital(hospital)" class="btn btn-danger" style="margin-left: 10px">
-                            <i class="fa fa-trash-o"></i>
-                          </button>
+                                <button [routerLink]="['/medico',medico._id]" class="btn btn-primary">
+                                  <i class="fa fa-edit"></i>
+                                </button>
+                                <button (click)="borrarMedico(medico)" class="btn btn-danger" style="margin-left: 10px">
+                                  <i class="fa fa-trash-o"></i>
+                                </button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>

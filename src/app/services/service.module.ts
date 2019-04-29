@@ -7,6 +7,7 @@ import {
   SharedService,
   UsuarioService,
   HospitalService,
+  MedicoService,
   LoginGuardGuard,
   SubirArchivoService
 } from './service.index';
@@ -20,6 +21,7 @@ import { ModalUploadService } from '../components/modal-upload/modal-upload.serv
     SharedService,
     UsuarioService,
     HospitalService,
+    MedicoService,
     LoginGuardGuard,
     SubirArchivoService,
     ModalUploadService

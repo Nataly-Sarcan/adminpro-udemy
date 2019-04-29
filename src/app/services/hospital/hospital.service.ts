@@ -6,6 +6,7 @@ import { SubirArchivoService } from '../subirArchivo/subir-archivo.service';
 import { URL_SERVICIOS } from 'src/app/config/config';
 import { map } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { UsuarioService } from '../usuario/usuario.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +15,15 @@ export class HospitalService {
   hospital: Hospital;
   token: string;
 
-  constructor(public http: HttpClient, public router: Router, public subirArchivoService: SubirArchivoService) {
-    this.cargarStorage();
-  }
-
-  cargarStorage() {
-    if (localStorage.getItem('token')) {
-      this.token = localStorage.getItem('token');
-    } else {
-      this.token = '';
-    }
-  }
+  constructor(
+    public http: HttpClient,
+    public router: Router,
+    public subirArchivoService: SubirArchivoService,
+    public usuarioService: UsuarioService
+  ) {}
 
   crearHospital(hospital: Hospital) {
-    const url = URL_SERVICIOS + `/hospital/?token=${this.token}`;
+    const url = URL_SERVICIOS + `/hospital/?token=${this.usuarioService.token}`;
 
     return this.http.post(url, hospital).pipe(
       map((resp: any) => {
@@ -43,7 +39,7 @@ export class HospitalService {
 
   actualizarHospital(hospital: Hospital) {
     let url = URL_SERVICIOS + '/hospital/' + hospital._id;
-    url += '?token=' + this.token;
+    url += '?token=' + this.usuarioService.token;
     return this.http.put(url, hospital).pipe(
       map((resp: any) => {
         Swal.fire({
@@ -84,9 +80,21 @@ export class HospitalService {
   }
 
   borrarHospital(id: string) {
-    const url = URL_SERVICIOS + `/hospital/${id}?token=${this.token}`;
-    return this.http.delete(url);
+    const url = URL_SERVICIOS + `/hospital/${id}?token=${this.usuarioService.token}`;
+    return this.http.delete(url).pipe(
+      map(() =>
+        Swal.fire({
+          type: 'success',
+          title: 'Hospital Borrado',
+          text: 'Eliminado correctamente'
+        })
+      )
+    );
   }
 
-  obtenerHospital(id: string) {}
+  obtenerHospital(id: string) {
+    const url = URL_SERVICIOS + `/hospital/${id}`;
+
+    return this.http.get(url).pipe(map((resp: any) => resp.hospital));
+  }
 }
